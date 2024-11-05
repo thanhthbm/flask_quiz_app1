@@ -1,0 +1,218 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="creatquiz-main">
+        <div class="form-container">
+            <h1 class="form-title">Thêm câu hỏi</h1>
+
+            <!-- Subject Selection Dropdown -->
+            <form action="#" method="POST" class="form" id="question-form">
+                <div class="form-group">
+                    <label for="subject">Chọn môn học</label>
+                    <select name="subject" id="subject" required onchange="toggleCustomInput()">
+                        <option value="" disabled selected>Chọn môn học</option>
+                        <option value="math">Toán</option>
+                        <option value="science">Khoa học</option>
+                        <option value="history">Lịch sử</option>
+                        <option value="english">Tiếng Anh</option>
+                        <option value="custom">Khác...</option>
+                    </select>
+                </div>
+
+                <div id="custom-subject-container" class="form-group" style="display: none;">
+                    <label for="custom-subject">Nhập môn học tùy chỉnh</label>
+                    <input type="text" name="custom_subject" id="custom-subject" placeholder="Nhập môn học" class="subject-input">
+                </div>
+
+                <div class="question-group">
+                    <div class="form-group">
+                        <label for="question">Nội dung câu hỏi 1</label>
+                        <input type="text" name="question[]" required class="question-input">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Đáp án:</label>
+                        <div class="answer-options">
+                            <div class="answer-option">
+                                <input type="radio" name="correct_answer[]" value="option1" id="option1">
+                                <input type="text" name="option1[]" placeholder="Đáp án 1" required class="answer-input">
+                            </div>
+                            <div class="answer-option">
+                                <input type="radio" name="correct_answer[]" value="option2" id="option2">
+                                <input type="text" name="option2[]" placeholder="Đáp án 2" required class="answer-input">
+                            </div>
+                            <div class="answer-option">
+                                <input type="radio" name="correct_answer[]" value="option3" id="option3">
+                                <input type="text" name="option3[]" placeholder="Đáp án 3" required class="answer-input">
+                            </div>
+                            <div class="answer-option">
+                                <input type="radio" name="correct_answer[]" value="option4" id="option4">
+                                <input type="text" name="option4[]" placeholder="Đáp án 4" required class="answer-input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="add-question-btn" onclick="addQuestions()">+</button>
+                <button type="submit" class="submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <style>
+        body {
+            background-image: url("{{ url_for('static', filename='images/5153829.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            margin: 0;
+            height: 100vh;
+        }
+
+        .creatquiz-main {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-title {
+            text-align: center;
+            color: #202124;
+            font-size: 24px;
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #5f6368;
+            margin-bottom: 4px;
+            font-size: 14px;
+        }
+
+        .form-group select, .form-group input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 8px;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .answer-options {
+            display: flex;
+            flex-direction: column; /* Cho phép đáp án nằm theo cột */
+        }
+
+        .answer-option {
+            display: flex;
+            align-items: center; /* Căn giữa theo chiều dọc */
+            margin-bottom: 8px; /* Khoảng cách giữa các đáp án */
+        }
+
+        .answer-option input[type="radio"] {
+            margin-right: 8px; /* Khoảng cách giữa hình tròn và ô nhập */
+        }
+
+        .add-question-btn {
+            display: inline-block;
+            background-color: #4285f4;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 20px;
+            margin-bottom: 16px;
+        }
+
+        .submit-btn {
+            background-color: #1a73e8;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+{#    <script src="../static/css/script.js" defer></script>#}
+    <script>
+    function addQuestions() {
+    // Check if a subject is selected
+    const subject = document.getElementById("subject");
+    if (!subject.value) {
+        alert("Vui lòng chọn môn học trước khi thêm câu hỏi.");
+        return;
+    }
+
+    // Select the form element
+    const form = document.getElementById("question-form");
+
+    // Create a unique index for the question group
+    const questionIndex = document.querySelectorAll('.question-group').length + 1;
+
+    // Create a new question group container
+    const questionGroup = document.createElement("div");
+    questionGroup.className = "question-group";
+
+    // Add HTML content for a new question with numbered label
+    questionGroup.innerHTML = `
+    <div class="form-group">
+        <label for="question">Nội dung câu hỏi ${questionIndex}</label>
+        <input type="text" name="question[]" required>
+    </div>
+
+    <div class="form-group">
+        <label>Đáp án:</label>
+        <div class="answer-options">
+            <div class="answer-option">
+                <input type="radio" name="correct_answer_${questionIndex}" value="option1">
+                <input type="text" name="option1[]" placeholder="Đáp án 1" required>
+            </div>
+            <div class="answer-option">
+                <input type="radio" name="correct_answer_${questionIndex}" value="option2">
+                <input type="text" name="option2[]" placeholder="Đáp án 2" required>
+            </div>
+            <div class="answer-option">
+                <input type="radio" name="correct_answer_${questionIndex}" value="option3">
+                <input type="text" name="option3[]" placeholder="Đáp án 3" required>
+            </div>
+            <div class="answer-option">
+                <input type="radio" name="correct_answer_${questionIndex}" value="option4">
+                <input type="text" name="option4[]" placeholder="Đáp án 4" required>
+            </div>
+        </div>
+    </div>
+    `;
+
+    // Add the new question group before the submit button
+    form.insertBefore(questionGroup, form.querySelector(".add-question-btn"));
+}
+
+
+
+        function toggleCustomInput() {
+            const subjectSelect = document.getElementById('subject');
+            const customSubjectContainer = document.getElementById('custom-subject-container');
+
+            // Hiện hoặc ẩn trường nhập môn học tùy chỉnh
+            if (subjectSelect.value === 'custom') {
+                customSubjectContainer.style.display = 'block';
+            } else {
+                customSubjectContainer.style.display = 'none';
+            }
+        }
+    </script>
+{% endblock %}
