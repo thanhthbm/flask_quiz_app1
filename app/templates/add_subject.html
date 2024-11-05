@@ -1,19 +1,20 @@
-{% extends "base.html" %}
-
-{% block content %}
-<div class="container">
-    <h1>Add New Subject</h1>
-    <form method="POST" action="{{ url_for('add_subject') }}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Subject</title>
+</head>
+<body>
+    <h2>Add Subject</h2>
+    <form method="POST">
         {{ form.hidden_tag() }}
-        
-        <div class="form-group">
-            {{ form.name.label }}<br>
-            {{ form.name(class="form-control") }}
+        <div>
+            {{ form.name.label }} {{ form.name() }}
         </div>
-        
-        <div class="form-group">
-            {{ form.submit(class="btn btn-primary") }}
+        <div>
+            {{ form.submit() }}
         </div>
     </form>
-</div>
-{% endblock %}
+</body>
+</html>
