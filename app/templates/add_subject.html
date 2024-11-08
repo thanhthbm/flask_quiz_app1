@@ -1,20 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Subject</title>
-</head>
-<body>
-    <h2>Add Subject</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.name.label }} {{ form.name() }}
+{% extends "base.html" %}
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="card shadow-lg" style="width: 60%;">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0 text-center">Add Subject</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-group mb-3">
+                        {{ form.name.label(class="form-label font-weight-bold") }}
+                        {{ form.name(class="form-control form-control-lg", placeholder="Enter subject name") }}
+                        {% for error in form.name.errors %}
+                            <small class="form-text text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group text-center">
+                        {{ form.submit(class="btn btn-primary btn-lg w-50") }}
+                    </div>
+                </form>
+            </div>
         </div>
-        <div>
-            {{ form.submit() }}
-        </div>
-    </form>
-</body>
-</html>
+    </div>
+{% endblock %}

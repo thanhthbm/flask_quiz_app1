@@ -1,38 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Question</title>
-</head>
-<body>
-    <h2>Add Question</h2>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.subject_id.label }} {{ form.subject_id() }}
+{% extends "base.html" %}
+{% block content %}
+    <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div class="card shadow-lg" style="width: 60%;">
+            <div class="card-header bg-primary text-white">
+                <h2 class="mb-0 text-center">Add Question</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+
+                    <div class="form-group mb-3">
+                        {{ form.subject_id.label(class="form-label font-weight-bold") }}
+                        {{ form.subject_id(class="form-control form-control-lg") }}
+                        {% for error in form.subject_id.errors %}
+                            <small class="form-text text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form.content.label(class="form-label font-weight-bold") }}
+                        {{ form.content(class="form-control form-control-lg", placeholder="Enter question content") }}
+                        {% for error in form.content.errors %}
+                            <small class="form-text text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form.option_a.label(class="form-label font-weight-bold") }}
+                        {{ form.option_a(class="form-control form-control-lg", placeholder="Enter option A") }}
+                        {% for error in form.option_a.errors %}
+                            <small class="form-text text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form.option_b.label(class="form-label font-weight-bold") }}
+                        {{ form.option_b(class="form-control form-control-lg", placeholder="Enter option B") }}
+                        {% for error in form.option_b.errors %}
+                            <small class="form-text text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form.option_c.label(class="form-label font-weight-bold") }}
+                        {{ form.option_c(class="form-control form-control-lg", placeholder="Enter option C") }}
+                        {% for error in form.option_c.errors %}
+                            <small class="form-text text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        {{ form.option_d.label(class="form-label font-weight-bold") }}
+                        {{ form.option_d(class="form-control form-control-lg", placeholder="Enter option D") }}
+                        {% for error in form.option_d.errors %}
+                            <small class="form-text text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group mb-4">
+                        {{ form.correct_answer.label(class="form-label font-weight-bold") }}
+                        <div>
+                            {% for subfield in form.correct_answer %}
+                                <div class="form-check form-check-inline">
+                                    {{ subfield(class="form-check-input") }}
+                                    {{ subfield.label(class="form-check-label") }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% for error in form.correct_answer.errors %}
+                            <small class="form-text text-danger">{{ error }}</small>
+                        {% endfor %}
+                    </div>
+
+                    <div class="form-group text-center">
+                        {{ form.submit(class="btn btn-primary btn-lg w-50") }}
+                    </div>
+                </form>
+            </div>
         </div>
-        <div>
-            {{ form.content.label }} {{ form.content() }}
-        </div>
-        <div>
-            {{ form.option_a.label }} {{ form.option_a() }}
-        </div>
-        <div>
-            {{ form.option_b.label }} {{ form.option_b() }}
-        </div>
-        <div>
-            {{ form.option_c.label }} {{ form.option_c() }}
-        </div>
-        <div>
-            {{ form.option_d.label }} {{ form.option_d() }}
-        </div>
-        <div>
-            {{ form.correct_answer.label }} {{ form.correct_answer() }}
-        </div>
-        <div>
-            {{ form.submit() }}
-        </div>
-    </form>
-</body>
-</html>
+    </div>
+{% endblock %}

@@ -1,15 +1,14 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from app import db, app
-from flask_security import UserMixin, RoleMixin
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+
+from app import db
+
 
 class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     hashed_password = db.Column(db.String(255), nullable=False)
-    role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=False)
+    role = db.Column(db.String(80), nullable=False, default='student')
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -21,11 +20,6 @@ class User(db.Model):
         return check_password_hash(self.hashed_password, password)
 
 
-class Role(db.Model):
-    __tablename__ = 'role'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), unique=True, nullable=False)
-    users = db.relationship('User', backref='role')
 
 
 
@@ -37,6 +31,8 @@ class Subject(db.Model):
 
     def __repr__(self):
         return '<Subject %r>' % self.name
+
+
 class Question(db.Model):
     __tablename__ = 'question'
     id = db.Column(db.Integer, primary_key=True)
@@ -50,3 +46,7 @@ class Question(db.Model):
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
     def __repr__(self):
         return '<Question %r>' % self.content
+
+class QuizAnswer(db.Model):
+    __tablename__ = 'quiz_answer'
+    id = db.Column(db.Integer, primary_key=True)

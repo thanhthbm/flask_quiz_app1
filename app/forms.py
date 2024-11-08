@@ -37,7 +37,7 @@ class AddQuestionForm(FlaskForm):
     option_c = StringField('Option C', validators=[DataRequired()])
     option_d = StringField('Option D', validators=[DataRequired()])
 
-    correct_answer = SelectField('Correct Answer', choices=[
+    correct_answer = RadioField('Correct Answer', choices=[
         ('A', 'A'),
         ('B', 'B'),
         ('C', 'C'),
