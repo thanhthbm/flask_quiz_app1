@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="center-wrapper"> <!-- Wrapper div for centering -->
+    <div class="quiz-results-container">
+        <h2 class="title">Quiz Results</h2>
+
+        <div class="quiz-summary">
+            <p><strong>Subject:</strong> {{ quiz_record.subject.name }}</p>
+            <p><strong>Score:</strong> {{ quiz_record.score }} / {{ quiz_answers|length }}</p>
+            <p><strong>Time Taken:</strong> {{ quiz_record.end_time - quiz_record.start_time }}</p>
+        </div>
+
+        <h3 class="section-title">Your Answers</h3>
+        <ul class="answers-list">
+            {% for quiz_answer in quiz_answers %}
+            <li class="answer-item">
+                <div class="question">
+                    <p><strong>{{ quiz_answer.question.content }}</strong></p>
+                </div>
+                <div class="options">
+                    <ul class="option-list">
+                        <li class="{% if quiz_answer.answer == quiz_answer.question.option_a %}{% if quiz_answer.is_correct %}correct-answer{% else %}incorrect-answer{% endif %}{% endif %}">
+                            {{ quiz_answer.question.option_a }}
+                        </li>
+                        <li class="{% if quiz_answer.answer == quiz_answer.question.option_b %}{% if quiz_answer.is_correct %}correct-answer{% else %}incorrect-answer{% endif %}{% endif %}">
+                            {{ quiz_answer.question.option_b }}
+                        </li>
+                        <li class="{% if quiz_answer.answer == quiz_answer.question.option_c %}{% if quiz_answer.is_correct %}correct-answer{% else %}incorrect-answer{% endif %}{% endif %}">
+                            {{ quiz_answer.question.option_c }}
+                        </li>
+                        <li class="{% if quiz_answer.answer == quiz_answer.question.option_d %}{% if quiz_answer.is_correct %}correct-answer{% else %}incorrect-answer{% endif %}{% endif %}">
+                            {{ quiz_answer.question.option_d }}
+                        </li>
+                    </ul>
+                </div>
+
+                {% if not quiz_answer.is_correct %}
+                <div class="correct-answer-highlight">
+                    <p><strong>Correct Answer:</strong> {{ quiz_answer.question.correct_answer }} - {{
+                        quiz_answer.question['option_' + quiz_answer.question.correct_answer.lower()] }}</p>
+                </div>
+                {% endif %}
+
+                <div class="result">
+                    <p><strong>Result:</strong>
+                        {% if quiz_answer.is_correct %}
+                        <span class="correct">Correct</span>
+                        {% else %}
+                        <span class="incorrect">Incorrect</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </li>
+            <hr class="question-separator"> <!-- Separator between each question -->
+            {% endfor %}
+        </ul>
+        <div class="button-container">
+            <a href="{{ url_for('home') }}" class="btn btn-home">Home</a>
+            <a href="{{ url_for('start_quiz', subject_id=subject.id) }}" class="btn btn-retake">Retake Test</a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

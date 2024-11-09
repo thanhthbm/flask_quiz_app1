@@ -1,4 +1,4 @@
-body{
+body {
     height: 100%;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
@@ -6,7 +6,7 @@ body{
     /* background-color: #71baed; */
 }
 
-.home-bg{
+.home-bg {
     display: flex;
     flex-direction: column;
 }
@@ -34,13 +34,13 @@ nav {
     margin-bottom: 0em;
 }
 
-.nav-links li{
+.nav-links li {
     display: inline-block;
     padding: 0px 15px;
     margin-left: 20px;
 }
 
-.nav-links li a{
+.nav-links li a {
     transition: all 0.3s ease 0s;
     text-decoration: none;
     color: #3e4667;
@@ -49,7 +49,7 @@ nav {
 
 /* Home page CSS */
 
-.home-img{
+.home-img {
     width: auto;
     height: 525px;
     border-radius: 50%;
@@ -69,8 +69,7 @@ nav {
 }
 
 
-
-.info-div{
+.info-div {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -99,7 +98,6 @@ nav {
 }
 
 
-
 /* Login Page CSS */
 
 .login-main {
@@ -121,17 +119,16 @@ nav {
     flex: 1;
 }
 
-.login-intro{
+.login-intro {
     margin-bottom: 50px;
     margin-left: 7px;
     color: #8e8e8e;
 }
 
-.login-intro h1{
+.login-intro h1 {
     font-weight: 800;
     color: #000;
 }
-
 
 
 .form-para {
@@ -152,7 +149,7 @@ nav {
     border: none;
 }
 
-.form-para input ::placeholder{
+.form-para input ::placeholder {
     color: #8e8e8e;
 }
 
@@ -160,12 +157,13 @@ nav {
     color: #8e8e8e;
     font-weight: 400;
 }
+
 .form-para span {
     margin-left: 15px;
 
 }
 
-.form-para p input{
+.form-para p input {
     margin-left: 100px;
 }
 
@@ -173,15 +171,14 @@ nav {
 /* Register Page css */
 
 
-
-.register-main{
+.register-main {
     display: flex;
     justify-content: center;
     background-color: #fff;
     align-items: center;
 }
 
-.register-img{
+.register-img {
     width: 44.2%;
     height: auto;
 }
@@ -194,25 +191,22 @@ nav {
     flex: 1;
 }
 
-.register-form p{
+.register-form p {
     display: block;
     margin-left: auto;
 }
 
-.register-intro{
+.register-intro {
     margin-top: 28px;
     margin-left: 7px;
     color: #8e8e8e;
     margin-bottom: 0px;
 }
 
-.register-intro h1{
+.register-intro h1 {
     font-weight: 800;
     color: #000;
 }
-
-
-
 
 
 /* Question Page CSS */
@@ -258,7 +252,7 @@ form hr {
     margin-top: 15px;
 }
 
-.options-div label{
+.options-div label {
     font-size: 20px;
     color: #3e4667;
     margin-top: 7px;
@@ -273,7 +267,7 @@ form hr {
     margin-left: auto;
 }
 
-.check-circle{
+.check-circle {
     font-size: 1.4em;
     color: #3e4667;
 }
@@ -289,13 +283,12 @@ form hr {
 }
 
 
-
 .score-head {
     font-weight: 600;
     margin-top: 30px;
-    font-style: bold;
+    font-style: normal;
     color: #49535f;
-    
+
 }
 
 .score-circle {
@@ -309,21 +302,21 @@ form hr {
     margin-top: 15px;
 }
 
-.score-circle h1{
+.score-circle h1 {
     font-size: 50px;
     border-radius: 50%;
     padding: 20px;
-    
+
     color: #49535f;
 }
 
-.congrats-cls{
+.congrats-cls {
     margin-top: 15px;
-    font-style: bold;
+    font-style: normal;
     color: #49535f;
 }
 
-.highest-score{
+.highest-score {
     display: flex;
     flex-flow: row nowrap;
     justify-content: center;
@@ -349,10 +342,255 @@ form hr {
     margin-left: 18px;
 }
 
-.redirect-links{
+.redirect-links {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-top: 50px;
     width: 60%;
+}
+
+.correct-answer {
+    background-color: #d4edda; /* Light green */
+    color: #155724;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.incorrect-answer {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.correct-answer-highlight {
+    background-color: #fff3cd; /* Light yellow */
+    color: #856404;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.quiz-results-container {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.title, .section-title {
+    font-size: 24px; /* Increase font size for headings */
+    margin-bottom: 10px;
+}
+
+.quiz-summary p {
+    font-size: 18px;
+}
+
+.option-list li {
+    margin: 4px 0;
+    font-size: 16px; /* Adjust individual option size */
+}
+
+.correct-answer-highlight {
+    background-color: #fff3cd; /* Light yellow */
+    color: #856404;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.question-separator {
+    border: 0;
+    height: 1px;
+    background: #ccc;
+    margin: 20px 0;
+}
+
+.correct {
+    color: green;
+    font-weight: bold;
+}
+
+.incorrect {
+    color: red;
+    font-weight: bold;
+}
+
+.center-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px; /* Add padding around the container */
+}
+
+/* Center the quiz results container and set a maximum width */
+.quiz-results-container {
+    max-width: 800px; /* Set max width for readability */
+    width: 100%;
+    margin: 0 auto; /* Center horizontally */
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.logo {
+    height: 50px; /* Adjust as needed */
+    width: auto;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.nav-links {
+    margin-left: auto; /* Pushes nav links to the right */
+    display: flex;
+    gap: 15px;
+    list-style-type: none;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+}
+
+body {
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    background-color: #f4f4f9; /* Light background for quiz */
+}
+
+.quiz-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-title {
+    text-align: center;
+    font-size: 36px;
+    color: #3e4667;
+    margin-bottom: 20px;
+}
+
+.quiz-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.question-item {
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+
+.question-content {
+    font-size: 20px;
+    font-weight: 600;
+    color: #3e4667;
+}
+
+.options-div label {
+    display: block;
+    font-size: 18px;
+    color: #3e4667;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.options-div input {
+    margin-right: 10px;
+}
+
+.question-separator {
+    border: 1px dashed #ddd;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    background-color: #107eeb;
+    color: #fff;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    align-self: center;
+}
+
+.submit-btn:hover {
+    background-color: #075db0;
+}
+
+.submit-btn:focus {
+    outline: none;
+}
+
+/* Add responsive styles for smaller screens */
+@media (max-width: 768px) {
+    .quiz-container {
+        padding: 20px;
+    }
+
+    .quiz-title {
+        font-size: 28px;
+    }
+
+    .question-content {
+        font-size: 18px;
+    }
+
+    .options-div label {
+        font-size: 16px;
+    }
+
+    .submit-btn {
+        font-size: 16px;
+        padding: 12px 20px;
+    }
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Khoảng cách giữa các nút */
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.btn-home {
+    background-color: #107eeb; /* Màu xanh */
+    color: #fff;
+}
+
+.btn-home:hover {
+    background-color: #0d6efd;
+}
+
+.btn-retake {
+    background-color: #f4a261; /* Màu cam */
+    color: #fff;
+}
+
+.btn-retake:hover {
+    background-color: #e07b3c;
 }

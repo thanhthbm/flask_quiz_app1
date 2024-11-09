@@ -1,9 +1,10 @@
-from operator import length_hint
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField
-from wtforms.validators import DataRequired, Length, EqualTo, ValidationError, Email
+from wtforms.validators import DataRequired, EqualTo, ValidationError
+
 from app.models import Subject
 from app.models import User
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -45,3 +46,5 @@ class AddQuestionForm(FlaskForm):
     ], validators=[DataRequired()])
 
     submit = SubmitField('Add Question')
+
+
