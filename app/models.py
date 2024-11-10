@@ -11,7 +11,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     hashed_password = db.Column(db.String(255), nullable=False)
     role = db.Column(db.String(80), nullable=False, default='student')
-
+    is_locked = db.Column(db.Boolean, nullable=False, default=False)
     def __repr__(self):
         return '<User %r>' % self.username
 
@@ -30,7 +30,7 @@ class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True, nullable=False)
     questions = db.relationship('Question', backref='subject', lazy=True)
-
+    is_deleted = db.Column(db.Boolean, nullable=False, default=False)
     def __repr__(self):
         return '<Subject %r>' % self.name
 
@@ -44,7 +44,7 @@ class Question(db.Model):
     option_c = db.Column(db.String(250), nullable=False)
     option_d = db.Column(db.String(250), nullable=False)
     correct_answer = db.Column(db.String(1), nullable=False)
-
+    is_deleted = db.Column(db.Boolean, nullable=False, default=False)
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
     def __repr__(self):
         return '<Question %r>' % self.content
@@ -58,7 +58,7 @@ class QuizRecord(db.Model):
     start_time = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     end_time = db.Column(db.DateTime, nullable=True)
     score = db.Column(db.Integer, nullable=False)
-
+    is_deleted = db.Column(db.Boolean, nullable=False, default=False)
     user = db.relationship('User', backref='quiz_record', lazy=True)
     subject = db.relationship('Subject', backref='quiz_record', lazy=True)
 
@@ -72,7 +72,7 @@ class QuizAnswer(db.Model):
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
     answer = db.Column(db.String(250), nullable=False)
     is_correct = db.Column(db.Boolean, nullable=False, default=False)
-
+    is_deleted = db.Column(db.Boolean, nullable=False, default=False)
     quiz_record = db.relationship('QuizRecord', backref='quiz_answer', lazy=True)
     question = db.relationship('Question', backref='quiz_answer', lazy=True)
     def __repr__(self):

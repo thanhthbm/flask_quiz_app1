@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField
-from wtforms.validators import DataRequired, EqualTo, ValidationError
+from wtforms.fields.numeric import IntegerField
+from wtforms.validators import DataRequired, EqualTo, ValidationError, NumberRange
 
 from app.models import Subject
 from app.models import User
@@ -48,3 +49,10 @@ class AddQuestionForm(FlaskForm):
     submit = SubmitField('Add Question')
 
 
+class QuizForm(FlaskForm):
+    subject_id = SelectField('Subject ID', validators=[DataRequired()])
+    number_of_questions = IntegerField('Number of Questions', validators=[
+        DataRequired(),
+        NumberRange(min=1, message="The number of questions must be greater than 0.")
+    ])
+    submit = SubmitField('Start Quiz')

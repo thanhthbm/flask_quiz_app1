@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="my-4">Quiz History</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Time Taken</th>
+            <th>Score</th>
+            <th>Action</th> <!-- Cột mới cho nút chuyển tới quiz_result -->
+        </tr>
+        </thead>
+        <tbody>
+        {% for record in quiz_records %}
+        <tr>
+            <td>{{ record.subject.name }}</td>
+            <td>{{ record.start_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td>{{ record.end_time.strftime('%Y-%m-%d %H:%M:%S') if record.end_time else "In Progress" }}</td>
+            <td>
+                {% if record.end_time %}
+                    {% set time_taken = record.end_time - record.start_time %}
+                    {{ time_taken | format_time }}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+            <td>{{ record.score }}</td>
+            <td>
+                <!-- Nút để chuyển tới quiz_result -->
+                <a href="{{ url_for('quiz_result', quiz_record_id=record.id) }}" class="btn btn-info">View Details</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
