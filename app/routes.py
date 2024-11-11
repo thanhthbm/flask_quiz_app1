@@ -214,9 +214,9 @@ def history():
     quiz_records = QuizRecord.query.filter_by(user_id=g.user.id).order_by(QuizRecord.start_time.desc()).all()
     return render_template('quiz_history.html', quiz_records=quiz_records)
 
-@app.route('/leaderboard', methods=['GET'])
+@app.route('/leaderboard/<int:subject_id>', methods=['GET'])
 @login_required
-def leaderboard():
+def leaderboard(subject_id):
     leaderboard_data = db.session.query(
         User.username,
         Subject.name.label('subject_name'),
@@ -224,7 +224,10 @@ def leaderboard():
         QuizRecord.start_time
     ).join(QuizRecord, QuizRecord.user_id == User.id) \
      .join(Subject, QuizRecord.subject_id == Subject.id) \
-     .order_by(Subject.name, QuizRecord.score.desc()) \
+     .filter(Subject.id == subject_id) \
+     .order_by(QuizRecord.score.desc()) \
      .all()
 
-    return render_template('leaderboard.html', leaderboard_data=leaderboard_data)
+    subject_name = db.session.query(Subject.name).filter(Subject.id == subject_id).scalar()
+
+    return render_template('leaderboard.html', leaderboard_data=leaderboard_data, subject_name=subject_name)
