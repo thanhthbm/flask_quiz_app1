@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Quiz Leaderboard</h2>
+    <table class="table table-striped mt-4">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Subject</th>
+                <th>Score</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in leaderboard_data %}
+            <tr>
+                <td>{{ record.username }}</td>
+                <td>{{ record.subject_name }}</td>
+                <td>{{ record.score }}</td>
+                <td>{{ record.start_time.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -213,3 +213,18 @@ def quiz():
 def history():
     quiz_records = QuizRecord.query.filter_by(user_id=g.user.id).order_by(QuizRecord.start_time.desc()).all()
     return render_template('quiz_history.html', quiz_records=quiz_records)
+
+@app.route('/leaderboard', methods=['GET'])
+@login_required
+def leaderboard():
+    leaderboard_data = db.session.query(
+        User.username,
+        Subject.name.label('subject_name'),
+        QuizRecord.score,
+        QuizRecord.start_time
+    ).join(QuizRecord, QuizRecord.user_id == User.id) \
+     .join(Subject, QuizRecord.subject_id == Subject.id) \
+     .order_by(Subject.name, QuizRecord.score.desc()) \
+     .all()
+
+    return render_template('leaderboard.html', leaderboard_data=leaderboard_data)
