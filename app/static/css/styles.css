@@ -369,33 +369,6 @@ form hr {
     color: #856404;
     padding: 5px;
     border-radius: 5px;
-}
-
-.quiz-results-container {
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
-    color: #333;
-}
-
-.title, .section-title {
-    font-size: 24px; /* Increase font size for headings */
-    margin-bottom: 10px;
-}
-
-.quiz-summary p {
-    font-size: 18px;
-}
-
-.option-list li {
-    margin: 4px 0;
-    font-size: 16px; /* Adjust individual option size */
-}
-
-.correct-answer-highlight {
-    background-color: #fff3cd; /* Light yellow */
-    color: #856404;
-    padding: 5px;
-    border-radius: 5px;
     font-weight: bold;
 }
 
@@ -413,6 +386,12 @@ form hr {
 
 .incorrect {
     color: red;
+    font-weight: bold;
+}
+
+.btn-yellow {
+    background-color: yellow;
+    color: black;
     font-weight: bold;
 }
 
