@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField
+from flask_wtf.file import FileAllowed
+from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField, FileField
 from wtforms.fields.numeric import IntegerField
 from wtforms.validators import DataRequired, EqualTo, ValidationError, NumberRange
 
@@ -31,20 +32,38 @@ class AddSubjectForm(FlaskForm):
         if subject is not None:
             raise ValidationError('That subject already exists.')
 
+
 class AddQuestionForm(FlaskForm):
+    # Lựa chọn phương thức nhập liệu
+    input_method = RadioField('Input Method', choices=[
+        ('manual', 'Manual Entry'),
+        ('file', 'Upload File')
+    ], validators=[DataRequired()], default='manual')
+
+    # Dropdown cho subject (môn học)
     subject_id = SelectField('Subject ID', validators=[DataRequired()])
+
+    # Câu hỏi
     content = StringField('Question', validators=[DataRequired()])
+
+    # Các lựa chọn câu trả lời
     option_a = StringField('Option A', validators=[DataRequired()])
     option_b = StringField('Option B', validators=[DataRequired()])
     option_c = StringField('Option C', validators=[DataRequired()])
     option_d = StringField('Option D', validators=[DataRequired()])
 
+    # Câu trả lời đúng
     correct_answer = RadioField('Correct Answer', choices=[
         ('A', 'A'),
         ('B', 'B'),
         ('C', 'C'),
         ('D', 'D')
     ], validators=[DataRequired()])
+
+    # Lựa chọn file để upload nếu chọn phương thức upload file
+    file = FileField('Upload File (CSV or JSON)', validators=[
+        FileAllowed(['csv', 'json'], 'Only CSV or JSON files are allowed.')
+    ])
 
     submit = SubmitField('Add Question')
 
