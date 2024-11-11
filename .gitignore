@@ -7,3 +7,6 @@ __pycache__/
 
 # Bỏ qua file cơ sở dữ liệu trong thư mục instance
 instance/db.new_quiz_app
+# Bỏ qua thư mục venv
+venv/
+__pycache__/
