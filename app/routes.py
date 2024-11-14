@@ -328,7 +328,7 @@ def start_quiz(subject_id, number_of_questions):
             if is_correct:
                 quiz_record.score += 1
 
-        quiz_record.end_time = datetime.utcnow()
+        quiz_record.end_time = datetime.utcnow() + timedelta(hours=7)
         db.session.add(quiz_record)
         db.session.commit()
 
@@ -383,7 +383,7 @@ def leaderboard(subject_id):
         User.username,
         Subject.name.label('subject_name'),
         QuizRecord.score,
-        QuizRecord.start_time
+        QuizRecord.end_time
     ).join(QuizRecord, QuizRecord.user_id == User.id) \
      .join(Subject, QuizRecord.subject_id == Subject.id) \
      .filter(Subject.id == subject_id) \

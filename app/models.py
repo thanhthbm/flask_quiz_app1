@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timezone,timedelta
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -55,7 +55,7 @@ class QuizRecord(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     subject_id = db.Column(db.Integer, db.ForeignKey('subject.id'), nullable=False)
-    start_time = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+    start_time = db.Column(db.DateTime, nullable=False, default=datetime.utcnow() + timedelta(hours=7))
     end_time = db.Column(db.DateTime, nullable=True)
     score = db.Column(db.Integer, nullable=False)
     is_deleted = db.Column(db.Boolean, nullable=False, default=False)
