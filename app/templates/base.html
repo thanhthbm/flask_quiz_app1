@@ -1,56 +1,31 @@
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    {% if title %}
-    <title>{{ title }}</title>
-    {% else %}
-    <title>Default</title>
-    {% endif %}
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
-    <script src="https://kit.fontawesome.com/21d2eca3df.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/mob-styles.css') }}">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{% block title %}Flask Quiz App{% endblock %}</title>
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 0; color:#222; }
+    header { background:#0f766e; color:#fff; padding:12px 16px; }
+    a { color:#0f766e; text-decoration:none; }
+    a:hover { text-decoration:underline; }
+    .container { max-width:960px; margin:0 auto; padding:16px; }
+    .btn { display:inline-block; padding:8px 12px; border:1px solid #0f766e; border-radius:6px; }
+    .btn.primary { background:#0f766e; color:#fff; }
+    .btn.danger { border-color:#b91c1c; color:#b91c1c; }
+    .input, select, textarea { width:100%; padding:8px; border:1px solid #ddd; border-radius:6px; }
+    .row { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    .card { border:1px solid #eee; border-radius:10px; padding:16px; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { border-bottom:1px solid #eee; padding:8px 6px; text-align:left; }
+    .muted { color:#666; font-size: 0.92rem; }
+  </style>
 </head>
-<body class="home-bg">
-<nav class="navbar">
-    <!-- Logo Section -->
-    <a href="{{ url_for('home') }}" class="navbar-brand">
-        <img src="{{ url_for('static', filename='images/Designer.jpeg') }}" alt="Logo" class="logo">
-    </a>
-
-    <!-- Navigation Links -->
-    <ul class="nav-links">
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-
-        {% if not g.user %}
-            <li><a href="{{ url_for('login') }}">Login</a></li>
-        {% else %}
-            <li><a href="{{ url_for('history') }}">History</a></li>
-            {% if g.user.role == 'admin' %}
-                <li><a href="{{ url_for('add_subject') }}">Add Subject</a></li>
-                <li><a href="{{ url_for('add_question') }}">Add Question</a></li>
-            {% endif %}
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
-        {% endif %}
-    </ul>
-</nav>
-
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-    <ul>
-        {% for message in messages %}
-            <li>{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-{% endwith %}
-
-{% block content %}{% endblock %}
+<body>
+  {% include "_nav.html" %}
+  <main class="container">
+    {% include "_flash.html" %}
+    {% block content %}{% endblock %}
+  </main>
 </body>
 </html>

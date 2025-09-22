@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Select Quiz{% endblock %}
+{% block content %}
+<h2>Start a Quiz</h2>
+<form method="post" class="card" style="max-width:520px;">
+  <label>Subject</label>
+  <select class="input" name="subject_id" required>
+    <option value="">-- Select --</option>
+    {% for s in subjects %}
+      <option value="{{ s.id }}">{{ s.name }}</option>
+    {% endfor %}
+  </select>
+
+  <label style="margin-top:8px;">Number of Questions</label>
+  <input class="input" type="number" name="number_of_questions" min="1" value="5" required />
+
+  <div style="margin-top:12px;">
+    <button class="btn primary" type="submit">Start</button>
+  </div>
+</form>
+{% endblock %}

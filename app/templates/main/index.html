@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Home · Flask Quiz App{% endblock %}
+{% block content %}
+<h2>Welcome</h2>
+<p class="muted">A minimal Flask-based quiz platform with subjects, questions, user scores, and leaderboards.</p>
+
+<div class="card" style="display:flex;gap:12px;flex-wrap:wrap;">
+  {% if g.user %}
+    <a class="btn primary" href="{{ url_for('quiz.select') }}">Start a Quiz</a>
+    <a class="btn" href="{{ url_for('main.history') }}">View History</a>
+    <a class="btn" href="{{ url_for('admin.subjects') }}">Admin Panel</a>
+  {% else %}
+    <a class="btn primary" href="{{ url_for('auth.login') }}">Login</a>
+    <a class="btn" href="{{ url_for('auth.register') }}">Register</a>
+  {% endif %}
+</div>
+{% endblock %}

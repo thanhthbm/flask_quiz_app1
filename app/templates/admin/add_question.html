@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Add Questions · Admin{% endblock %}
+{% block content %}
+<h2>Add Questions</h2>
+
+<form method="post" enctype="multipart/form-data" class="card">
+  <div class="row">
+    <div>
+      <label>Subject</label>
+      <select class="input" name="subject_id" required>
+        <option value="">-- Select --</option>
+        {% for s in subjects %}
+          <option value="{{ s.id }}">{{ s.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div>
+      <label>Input Method</label>
+      <select class="input" name="input_method">
+        <option value="manual">Manual</option>
+        <option value="file">File (.txt | .csv | .json)</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="manual-box" style="margin-top:12px;">
+    <label>Question</label>
+    <textarea class="input" name="content" rows="3" placeholder="Question content..."></textarea>
+    <div class="row" style="margin-top:8px;">
+      <div><label>Option A</label><input class="input" name="option_a" /></div>
+      <div><label>Option B</label><input class="input" name="option_b" /></div>
+      <div><label>Option C</label><input class="input" name="option_c" /></div>
+      <div><label>Option D</label><input class="input" name="option_d" /></div>
+    </div>
+    <label style="margin-top:8px;">Correct Answer (A/B/C/D)</label>
+    <input class="input" name="correct_answer" maxlength="1" />
+  </div>
+
+  <div id="file-box" style="display:none;margin-top:12px;">
+    <label>Upload file</label>
+    <input class="input" type="file" name="file" accept=".txt,.csv,.json" />
+    <p class="muted">TXT format: content|A|B|C|D|answer</p>
+  </div>
+
+  <div style="margin-top:12px;">
+    <button class="btn primary" type="submit">Save</button>
+    <a class="btn" href="{{ url_for('admin.subjects') }}">Back to Subjects</a>
+  </div>
+</form>
+
+<script>
+  const methodEl = document.querySelector('[name="input_method"]');
+  const manualBox = document.getElementById('manual-box');
+  const fileBox = document.getElementById('file-box');
+  function toggleBoxes() {
+    const v = methodEl.value;
+    manualBox.style.display = v === 'manual' ? 'block' : 'none';
+    fileBox.style.display = v === 'file' ? 'block' : 'none';
+  }
+  methodEl.addEventListener('change', toggleBoxes);
+  toggleBoxes();
+</script>
+{% endblock %}

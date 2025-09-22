@@ -1,0 +1,14 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <div style="display:grid;gap:8px;margin-bottom:12px;">
+      {% for category, message in messages %}
+        <div class="card" style="border-color:
+             {{ 'success' in category and '#16a34a' or 'danger' in category and '#b91c1c' or '#0f766e' }};
+             background:
+             {{ 'success' in category and '#f0fdf4' or 'danger' in category and '#fef2f2' or '#ecfeff' }};">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}

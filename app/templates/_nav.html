@@ -1,0 +1,17 @@
+<header>
+  <div class="container" style="display:flex;align-items:center;gap:16px;justify-content:space-between">
+    <div><a href="{{ url_for('main.home') }}" style="color:#fff;text-decoration:none;font-weight:700;">Flask Quiz App</a></div>
+    <nav style="display:flex;gap:12px;">
+      <a href="{{ url_for('main.home') }}" style="color:#e6fffa;">Home</a>
+      {% if g.user %}
+        <a href="{{ url_for('quiz.select') }}" style="color:#e6fffa;">Take Quiz</a>
+        <a href="{{ url_for('main.history') }}" style="color:#e6fffa;">History</a>
+        <a href="{{ url_for('admin.subjects') }}" style="color:#e6fffa;">Admin</a>
+        <a href="{{ url_for('auth.logout') }}" style="color:#fde68a;">Logout ({{ g.user.username }})</a>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}" style="color:#e6fffa;">Login</a>
+        <a href="{{ url_for('auth.register') }}" style="color:#e6fffa;">Register</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>

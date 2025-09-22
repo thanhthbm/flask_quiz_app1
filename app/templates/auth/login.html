@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Login · Flask Quiz App{% endblock %}
+{% block content %}
+<h2>Login</h2>
+<form method="post" class="card" style="max-width:420px;">
+  <label>Username</label>
+  <input class="input" name="username" required />
+  <label style="margin-top:8px;">Password</label>
+  <input class="input" type="password" name="password" required />
+  <div style="margin-top:12px;display:flex;gap:8px;">
+    <button class="btn primary" type="submit">Login</button>
+    <a class="btn" href="{{ url_for('auth.register') }}">Create account</a>
+  </div>
+</form>
+{% endblock %}

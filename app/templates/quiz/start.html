@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Quiz{% endblock %}
+{% block content %}
+<h2>Quiz</h2>
+
+<form method="post" class="card">
+  {% for q in questions %}
+    <div class="card" style="margin-bottom:12px;">
+      <div><strong>Q{{ loop.index }}.</strong> {{ q.content }}</div>
+      <div style="margin-top:8px;display:grid;gap:6px;">
+        <label><input type="radio" name="q_{{ q.id }}" value="A" /> {{ q.option_a }}</label>
+        <label><input type="radio" name="q_{{ q.id }}" value="B" /> {{ q.option_b }}</label>
+        <label><input type="radio" name="q_{{ q.id }}" value="C" /> {{ q.option_c }}</label>
+        <label><input type="radio" name="q_{{ q.id }}" value="D" /> {{ q.option_d }}</label>
+      </div>
+    </div>
+  {% endfor %}
+  <button class="btn primary" type="submit">Submit</button>
+</form>
+{% endblock %}

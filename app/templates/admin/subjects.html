@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Subjects · Admin{% endblock %}
+{% block content %}
+<h2>Subjects</h2>
+
+<div class="row">
+  <form method="post" class="card">
+    <h3>Add Subject</h3>
+    <label>Name</label>
+    <input class="input" name="name" placeholder="e.g. Python, Math" required />
+    <div style="margin-top:12px;">
+      <button class="btn primary" type="submit">Add</button>
+      <a class="btn" href="{{ url_for('admin.add_question') }}">Add Questions</a>
+    </div>
+  </form>
+
+  <div class="card">
+    <h3>Existing Subjects</h3>
+    <table>
+      <thead><tr><th>#</th><th>Name</th><th>Leaderboard</th></tr></thead>
+      <tbody>
+        {% for s in subjects %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ s.name }}</td>
+          <td><a href="{{ url_for('main.leaderboard', subject_id=s.id) }}">View</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="3" class="muted">No subjects yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

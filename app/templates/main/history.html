@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}My Quiz History{% endblock %}
+{% block content %}
+<h2>My Quiz History</h2>
+<div class="card">
+  <table>
+    <thead>
+      <tr><th>#</th><th>Subject</th><th>Score</th><th>Start</th><th>End</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for r in quiz_records %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ r.subject.name }}</td>
+          <td>{{ r.score }}</td>
+          <td>{{ r.start_time.strftime('%Y-%m-%d %H:%M:%S') if r.start_time else '-' }}</td>
+          <td>{{ r.end_time.strftime('%Y-%m-%d %H:%M:%S') if r.end_time else '-' }}</td>
+          <td><a href="{{ url_for('quiz.result', record_id=r.id) }}">View</a></td>
+        </tr>
+      {% else %}
+        <tr><td colspan="6" class="muted">No records yet.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

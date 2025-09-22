@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Result{% endblock %}
+{% block content %}
+<h2>Result</h2>
+
+<div class="card">
+  <div><strong>Subject:</strong> {{ quiz_record.subject.name }}</div>
+  <div><strong>Score:</strong> {{ quiz_record.score }} / {{ quiz_answers|length }}</div>
+  <div><strong>Time Taken:</strong>
+    {% if time_taken %} 
+      {% set total = time_taken.total_seconds()|int %}
+      {% set hh = (total // 3600) %}
+      {% set mm = ((total % 3600) // 60) %}
+      {% set ss = (total % 60) %}
+      {{ "%02d:%02d:%02d"|format(hh,mm,ss) }}
+    {% else %}-{% endif %}
+  </div>
+</div>
+
+<h3 style="margin-top:16px;">Your Answers</h3>
+<div class="card">
+  <ol>
+    {% for qa in quiz_answers %}
+      <li style="margin-bottom:10px;">
+        <div><strong>{{ qa.question.content }}</strong></div>
+        <div class="muted">
+          {% if not qa.is_correct %}
+            Correct: {{ qa.question.correct_answer }} —
+            {% if qa.question.correct_answer == 'A' %}{{ qa.question.option_a }}
+            {% elif qa.question.correct_answer == 'B' %}{{ qa.question.option_b }}
+            {% elif qa.question.correct_answer == 'C' %}{{ qa.question.option_c }}
+            {% else %}{{ qa.question.option_d }}{% endif %}
+          {% else %}Correct{% endif %}
+        </div>
+      </li>
+    {% endfor %}
+  </ol>
+</div>
+
+<div style="margin-top:12px;display:flex;gap:8px;">
+  <a class="btn" href="{{ url_for('main.home') }}">Home</a>
+  <a class="btn" href="{{ url_for('quiz.select') }}">Retake</a>
+  <a class="btn" href="{{ url_for('main.leaderboard', subject_id=quiz_record.subject_id) }}">Leaderboard</a>
+</div>
+{% endblock %}
