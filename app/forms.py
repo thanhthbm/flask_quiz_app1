@@ -1,17 +1,19 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, SelectField, RadioField, FileField
-from wtforms.fields.numeric import IntegerField
-from wtforms.validators import DataRequired, EqualTo, ValidationError, NumberRange
+from wtforms import (
+  StringField, PasswordField, SubmitField, SelectField, RadioField, FileField,
+  IntegerField, TextAreaField
+)
+from wtforms.validators import DataRequired, EqualTo, ValidationError, \
+  NumberRange, InputRequired, Optional
 
-from app.models import Subject
-from app.models import User
+from app.models import Subject, User
 
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
-    password2 = PasswordField('<PASSWORD>', validators=[DataRequired(), EqualTo('password')])
+    password2 = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
     def validate_username(self, username):
@@ -19,14 +21,17 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError('Please use a different username.')
 
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Log In')
 
+
 class AddSubjectForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     submit = SubmitField('Add Subject')
+
     def validate_name(self, name):
         subject = Subject.query.filter_by(name=name.data).first()
         if subject is not None:
@@ -34,44 +39,29 @@ class AddSubjectForm(FlaskForm):
 
 
 class AddQuestionForm(FlaskForm):
-    # Lựa chọn phương thức nhập liệu
-    input_method = RadioField('Input Method', choices=[
-        ('manual', 'Manual Entry'),
-        ('file', 'Upload File')
-    ], validators=[DataRequired()], default='manual')
+  input_method = SelectField('Input Method', choices=[
+    ('manual', 'Manual'),
+    ('file', 'File')
+  ], default='manual', validators=[InputRequired()])
 
-    # Dropdown cho subject (môn học)
-    subject_id = SelectField('Subject ID', validators=[DataRequired()])
-
-    # Câu hỏi
-    content = StringField('Question', validators=[DataRequired()])
-
-    # Các lựa chọn câu trả lời
-    option_a = StringField('Option A', validators=[DataRequired()])
-    option_b = StringField('Option B', validators=[DataRequired()])
-    option_c = StringField('Option C', validators=[DataRequired()])
-    option_d = StringField('Option D', validators=[DataRequired()])
-
-    # Câu trả lời đúng
-    correct_answer = RadioField('Correct Answer', choices=[
-        ('A', 'A'),
-        ('B', 'B'),
-        ('C', 'C'),
-        ('D', 'D')
-    ], validators=[DataRequired()])
-
-    # Lựa chọn file để upload nếu chọn phương thức upload file
-    file = FileField('Upload File (CSV or JSON)', validators=[
-        FileAllowed(['csv', 'json'], 'Only CSV or JSON files are allowed.')
-    ])
-
-    submit = SubmitField('Add Question')
+  subject_id = SelectField('Subject', coerce=int, validators=[InputRequired()])
+  content = TextAreaField('Question', validators=[Optional()])
+  option_a = StringField('Option A', validators=[Optional()])
+  option_b = StringField('Option B', validators=[Optional()])
+  option_c = StringField('Option C', validators=[Optional()])
+  option_d = StringField('Option D', validators=[Optional()])
+  correct_answer = StringField('Correct Answer (A/B/C/D)',
+                               validators=[Optional()])
+  file = FileField('Upload File', validators=[
+    FileAllowed(['txt', 'csv', 'json'], 'Allowed formats: .txt, .csv, .json')
+  ])
+  submit = SubmitField('Save')
 
 
 class QuizForm(FlaskForm):
-    subject_id = SelectField('Subject ID', validators=[DataRequired()])
-    number_of_questions = IntegerField('Number of Questions', validators=[
-        DataRequired(),
-        NumberRange(min=1, message="The number of questions must be greater than 0.")
-    ])
+    subject_id = SelectField('Subject', validators=[InputRequired()], coerce=int)
+    number_of_questions = IntegerField(
+        'Number of Questions',
+        validators=[DataRequired(), NumberRange(min=1, message="The number of questions must be greater than 0.")]
+    )
     submit = SubmitField('Start Quiz')

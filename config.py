@@ -1,19 +1,14 @@
+import os
+
 
 class Config:
-    SECRET_KEY = 'abcxyz'
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///quiz_app.db'
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    UPLOAD_FOLDER = 'app/uploads'
+    UPLOAD_FOLDER = os.environ.get('UPLOAD_FOLDER')
     QUESTION_PER_PAGE = 1
 
-    #Flask-Mail SMTP server
-    MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
-    MAIL_USERNAME = 'thanhthbm@gmail.com'
-    MAIL_PASSWORD = '20032004567'
-    MAIL_DEFAULT_SENDER = '"Quiz app" <<EMAIL>>'
+    WTF_CSRF_ENABLED = False
 
     #Flask-User setting
     USER_APP_NAME = 'Quiz app'

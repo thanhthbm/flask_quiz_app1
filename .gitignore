@@ -1,12 +1,15 @@
-# Bỏ qua file cơ sở dữ liệu trong thư mục db
-db/quiz_app.db
-
-# Bỏ qua các file bytecode Python
-__pycache__/
-*.pyc
-
-# Bỏ qua file cơ sở dữ liệu trong thư mục instance
-instance/db.new_quiz_app
-# Bỏ qua thư mục venv
+# Ignore virtual environments
+.venv/
 venv/
+
+# Byte-compiled / cache
 __pycache__/
+*.py[cod]
+
+# Environment
+.env
+*.env
+
+# VSCode, PyCharm
+.vscode/
+.idea/

@@ -4,12 +4,18 @@
 <h2>Subjects</h2>
 
 <div class="row">
-  <form method="post" class="card">
+  <form method="post" class="card" style="max-width:480px;">
+    {{ form.csrf_token }}
     <h3>Add Subject</h3>
-    <label>Name</label>
-    <input class="input" name="name" placeholder="e.g. Python, Math" required />
-    <div style="margin-top:12px;">
-      <button class="btn primary" type="submit">Add</button>
+
+    <label >Name</label>
+    {{ form.name(class="input", placeholder="e.g. Python, Math") }}
+    {% for error in form.name.errors %}
+      <p class="text-danger" style="margin-top:4px;">{{ error }}</p>
+    {% endfor %}
+
+    <div style="margin-top:12px; display:flex; gap:8px;">
+      {{ form.submit(class="btn primary") }}
       <a class="btn" href="{{ url_for('admin.add_question') }}">Add Questions</a>
     </div>
   </form>
@@ -17,7 +23,9 @@
   <div class="card">
     <h3>Existing Subjects</h3>
     <table>
-      <thead><tr><th>#</th><th>Name</th><th>Leaderboard</th></tr></thead>
+      <thead>
+        <tr><th>#</th><th>Name</th><th>Leaderboard</th></tr>
+      </thead>
       <tbody>
         {% for s in subjects %}
         <tr>
