@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Edit Question #{{ item.id }}{% endblock %}
+{% block content %}
+<h2>Edit Question #{{ item.id }}</h2>
+
+<form method="post" class="card">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+  <label>Subject</label>
+  <select class="input" name="subject_id" required>
+    {% for s in form.subject_id.choices %}
+      <option value="{{ s[0] }}" {{ 'selected' if s[0]==form.subject_id.data else '' }}>
+        {{ s[1] }}
+      </option>
+    {% endfor %}
+  </select>
+
+  <label style="margin-top:8px;">Question</label>
+  <textarea class="input" name="content" rows="3" required>{{ form.content.data }}</textarea>
+
+  <div class="row" style="margin-top:8px;">
+    <div><label>Option A</label><input class="input" name="option_a" value="{{ form.option_a.data }}" required></div>
+    <div><label>Option B</label><input class="input" name="option_b" value="{{ form.option_b.data }}" required></div>
+  </div>
+  <div class="row" style="margin-top:8px;">
+    <div><label>Option C</label><input class="input" name="option_c" value="{{ form.option_c.data }}" required></div>
+    <div><label>Option D</label><input class="input" name="option_d" value="{{ form.option_d.data }}" required></div>
+  </div>
+
+  <label style="margin-top:8px;">Correct Answer (A/B/C/D)</label>
+  <input class="input" name="correct_answer" value="{{ form.correct_answer.data }}" required />
+
+  <div style="margin-top:12px;">
+    <button class="btn primary" type="submit">Save</button>
+    <a class="btn" href="{{ url_for('admin.questions_manage') }}">Cancel</a>
+  </div>
+</form>
+{% endblock %}

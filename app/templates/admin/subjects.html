@@ -31,7 +31,7 @@
         <tr>
           <td>{{ loop.index }}</td>
           <td>{{ s.name }}</td>
-          <td><a href="{{ url_for('main.leaderboard', subject_id=s.id) }}">View</a></td>
+          <td><a href="{{ url_for('quiz.leaderboard', subject_id=s.id) }}">View</a></td>
         </tr>
         {% else %}
         <tr><td colspan="3" class="muted">No subjects yet.</td></tr>

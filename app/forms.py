@@ -5,7 +5,7 @@ from wtforms import (
   IntegerField, TextAreaField
 )
 from wtforms.validators import DataRequired, EqualTo, ValidationError, \
-  NumberRange, InputRequired, Optional
+  NumberRange, InputRequired, Optional, AnyOf
 
 from app.models import Subject, User
 
@@ -65,3 +65,18 @@ class QuizForm(FlaskForm):
         validators=[DataRequired(), NumberRange(min=1, message="The number of questions must be greater than 0.")]
     )
     submit = SubmitField('Start Quiz')
+
+
+class EditQuestionForm(FlaskForm):
+  subject_id = SelectField('Subject', coerce=int, validators=[InputRequired()])
+  content = TextAreaField('Question', validators=[InputRequired()])
+  option_a = StringField('Option A', validators=[InputRequired()])
+  option_b = StringField('Option B', validators=[InputRequired()])
+  option_c = StringField('Option C', validators=[InputRequired()])
+  option_d = StringField('Option D', validators=[InputRequired()])
+  correct_answer = StringField(
+      'Correct Answer (A/B/C/D)',
+      validators=[InputRequired(),
+                  AnyOf(['A', 'B', 'C', 'D'], message="Must be A/B/C/D")]
+  )
+  submit = SubmitField('Save')

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Quiz · {{ subject.name }}{% endblock %}
+{% block content %}
+<h2>{{ subject.name }} — Quiz</h2>
+
+<form id="quiz-form" method="post" action="{{ url_for('quiz.submit_quiz') }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="hidden" name="record_id" value="{{ record_id }}">
+
+  <div class="card" style="margin-bottom:12px;">
+    <strong>⏱️ Time left:</strong> <span id="time-left"></span>
+  </div>
+
+  {% for q in questions %}
+    <div class="card" style="margin-bottom:12px;">
+      <div class="mb-2"><strong>Q{{ loop.index }}.</strong> {{ q.content }}</div>
+      <div class="space-y-1">
+        {% for opt in q.opts %}
+          <label style="display:block;">
+            <input type="radio" name="q_{{ q.id }}" value="{{ opt[0] }}">
+            <span><b>{{ opt[0] }}.</b> {{ opt[1] }}</span>
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+
+  <button class="btn primary" type="submit">Submit</button>
+</form>
+
+<script>
+(function() {
+  let remaining = {{ remaining_seconds|int }};
+  const el = document.getElementById('time-left');
+  const form = document.getElementById('quiz-form');
+
+  function tick() {
+    const m = Math.floor(remaining / 60);
+    const s = remaining % 60;
+    el.textContent = m + 'm ' + (s<10?('0'+s):s) + 's';
+    if (remaining <= 0) {
+      // auto submit khi hết giờ
+      form.submit();
+      return;
+    }
+    remaining -= 1;
+    setTimeout(tick, 1000);
+  }
+  tick();
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard · {{ subject.name }}{% endblock %}
+{% block content %}
+<h2>Leaderboard — {{ subject.name }}</h2>
+
+{% if rows and rows|length > 0 %}
+  <div class="card">
+    <table class="table" style="width:100%;">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>User</th>
+          <th>Score</th>
+          <th>Finished At</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for rec, user in rows %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ user.username or user.email }}</td>
+            <td>{{ rec.score }}</td>
+            <td>
+              {% if rec.end_time %}
+                {{ rec.end_time.strftime("%Y-%m-%d %H:%M:%S") }}
+              {% else %}
+                —
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% else %}
+  <div class="card">No test to show.</div>
+{% endif %}
+
+<div style="margin-top:12px;">
+  <a class="btn" href="{{ url_for('quiz.select') }}">⟵ Back</a>
+</div>
+{% endblock %}

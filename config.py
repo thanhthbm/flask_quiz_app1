@@ -10,6 +10,9 @@ class Config:
 
     WTF_CSRF_ENABLED = False
 
+    QUIZ_NUM_QUESTIONS_DEFAULT = 10
+    QUIZ_DURATION_MINUTES_DEFAULT = 15
+
     #Flask-User setting
     USER_APP_NAME = 'Quiz app'
     USER_ENABLE_EMAIL = True

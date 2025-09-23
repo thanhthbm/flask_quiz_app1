@@ -8,7 +8,10 @@
   {% if g.user %}
     <a class="btn primary" href="{{ url_for('quiz.select') }}">Start a Quiz</a>
     <a class="btn" href="{{ url_for('main.history') }}">View History</a>
-    <a class="btn" href="{{ url_for('admin.subjects') }}">Admin Panel</a>
+     {% if g.user.role == 'admin' %}
+      <a class="btn" href="{{ url_for('admin.subjects') }}">Admin Panel</a>
+      <a class="btn" href="{{ url_for('admin.questions_manage') }}">Manage Questions</a>
+    {% endif %}
   {% else %}
     <a class="btn primary" href="{{ url_for('auth.login') }}">Login</a>
     <a class="btn" href="{{ url_for('auth.register') }}">Register</a>

@@ -6,7 +6,9 @@
       {% if g.user %}
         <a href="{{ url_for('quiz.select') }}" style="color:#e6fffa;">Take Quiz</a>
         <a href="{{ url_for('main.history') }}" style="color:#e6fffa;">History</a>
-        <a href="{{ url_for('admin.subjects') }}" style="color:#e6fffa;">Admin</a>
+         {% if g.user.role == 'admin' %}
+            <a href="{{ url_for('admin.subjects') }}" style="color:#e6fffa;">Admin</a>
+        {% endif %}
         <a href="{{ url_for('auth.logout') }}" style="color:#fde68a;">Logout ({{ g.user.username }})</a>
       {% else %}
         <a href="{{ url_for('auth.login') }}" style="color:#e6fffa;">Login</a>

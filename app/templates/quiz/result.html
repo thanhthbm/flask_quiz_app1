@@ -40,6 +40,6 @@
 <div style="margin-top:12px;display:flex;gap:8px;">
   <a class="btn" href="{{ url_for('main.home') }}">Home</a>
   <a class="btn" href="{{ url_for('quiz.select') }}">Retake</a>
-  <a class="btn" href="{{ url_for('main.leaderboard', subject_id=quiz_record.subject_id) }}">Leaderboard</a>
+  <a class="btn" href="{{ url_for('quiz.leaderboard', subject_id=quiz_record.subject_id) }}">Leaderboard</a>
 </div>
 {% endblock %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Manage Questions{% endblock %}
+{% block content %}
+<h2>Manage Questions</h2>
+
+<form method="get" class="card" style="margin-bottom:12px;">
+  <div style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap;">
+    <div>
+      <label>Subject</label>
+      <select class="input" name="subject_id">
+        <option value="">-- All --</option>
+        {% for s in subjects %}
+          <option value="{{ s.id }}" {{ 'selected' if current_subject_id==s.id else '' }}>
+            {{ s.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label>Search</label>
+      <input class="input" type="text" name="q" value="{{ q or '' }}" placeholder="content/options..." />
+    </div>
+
+    <div>
+      <label>Status</label>
+      <select class="input" name="deleted">
+        <option value="0" {{ 'selected' if not show_deleted else '' }}>Active</option>
+        <option value="1" {{ 'selected' if show_deleted else '' }}>Deleted</option>
+      </select>
+    </div>
+
+    <div>
+      <button class="btn" type="submit">Filter</button>
+      <a class="btn" href="{{ url_for('admin.questions_manage') }}">Reset</a>
+      <a class="btn" href="{{ url_for('admin.add_question') }}">+ Add Question</a>
+    </div>
+  </div>
+</form>
+
+{% if items %}
+  {# FORM BULK ACTION: giữ nguyên filter hiện tại trong query string #}
+  <form id="bulk-form" method="post" action="{{ url_for('admin.questions_bulk', **request.args) }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div class="card" style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin-bottom:8px;">
+      {% if not show_deleted %}
+        <button class="btn danger" type="submit" name="action" value="delete" onclick="return confirm('Delete selected questions?')">Delete Selected</button>
+      {% else %}
+        <button class="btn" type="submit" name="action" value="restore">Restore Selected</button>
+      {% endif %}
+      <span class="muted">With selected…</span>
+    </div>
+
+    <div class="card">
+      <table class="table" style="width:100%;">
+        <thead>
+          <tr>
+            <th style="width:36px;">
+              <input type="checkbox" id="check-all" onclick="toggleAll(this)">
+            </th>
+            <th style="width:50px;">ID</th>
+            <th>Subject</th>
+            <th>Content</th>
+            <th>Answers</th>
+            <th style="width:220px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for it in items %}
+            <tr>
+              <td>
+                <input type="checkbox" name="ids" value="{{ it.id }}" class="row-check">
+              </td>
+              <td>{{ it.id }}</td>
+              <td>{{ it.subject.name }}</td>
+              <td>{{ it.content|truncate(100) }}</td>
+              <td>
+                <div><b>A</b>: {{ it.option_a }}</div>
+                <div><b>B</b>: {{ it.option_b }}</div>
+                <div><b>C</b>: {{ it.option_c }}</div>
+                <div><b>D</b>: {{ it.option_d }}</div>
+                <div><b>Correct</b>: {{ it.correct_answer }}</div>
+              </td>
+              <td>
+                {% if not it.is_deleted %}
+                  <a class="btn" href="{{ url_for('admin.question_edit', qid=it.id) }}">Edit</a>
+                  <form method="post" action="{{ url_for('admin.question_delete', qid=it.id, **request.args) }}" style="display:inline;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="btn danger" type="submit" onclick="return confirm('Delete this question?')">Delete</button>
+                  </form>
+                {% else %}
+                  <form method="post" action="{{ url_for('admin.question_restore', qid=it.id, **request.args) }}" style="display:inline;">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button class="btn" type="submit">Restore</button>
+                  </form>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    {% if pagination.pages > 1 %}
+      <div style="margin-top:12px;">
+        {% if pagination.has_prev %}
+          <a class="btn" href="{{ url_for('admin.questions_manage', page=pagination.prev_num, q=q, subject_id=current_subject_id, deleted=show_deleted) }}">« Prev</a>
+        {% endif %}
+        <span>Page {{ pagination.page }} / {{ pagination.pages }}</span>
+        {% if pagination.has_next %}
+          <a class="btn" href="{{ url_for('admin.questions_manage', page=pagination.next_num, q=q, subject_id=current_subject_id, deleted=show_deleted) }}">Next »</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </form>
+
+{% else %}
+  <div class="card">No questions found.</div>
+{% endif %}
+
+<script>
+  function toggleAll(master) {
+    document.querySelectorAll('.row-check').forEach(cb => { cb.checked = master.checked; });
+  }
+</script>
+
+{% endblock %}
